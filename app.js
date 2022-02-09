@@ -27,4 +27,8 @@ const medicineRoute = require("./mongodb/routes/medicineRoute");
 
 app.use("/medicine", medicineRoute)
 
+app.get("/", (req, res) => {
+    res.send(`<h1>Hello world</h1>`);
+})
+
 app.listen(port || process.env.PORT, () => console.log(`Server running success! port: ${port}`))
