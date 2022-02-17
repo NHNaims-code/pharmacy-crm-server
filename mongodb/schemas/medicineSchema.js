@@ -57,8 +57,6 @@ const medicineSchema = mongoose.Schema({
     url_id: {
         type: String,
         trim: true,
-        required: true,
-        default: '0'
     },
     brand_name: {
         type: String,
@@ -69,32 +67,22 @@ const medicineSchema = mongoose.Schema({
     dosage_from: {
         type: String,
         trim: true,
-        required: true,
-        default: ''
     },
     generic_name: {
         type: String,
         trim: true,
-        required: true,
-        default: ''
     },
     strength: {
         type: String,
         trim: true,
-        required: true,
-        default: ''
     },
     manufactured_by: {
         type: String,
         trim: true,
-        required: true,
-        default: ''
     },
     unit_price: {
         type: String,
         trim: true,
-        required: true,
-        default: ''
     },
     pack_size: {
         type: String,

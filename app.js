@@ -23,7 +23,7 @@ mongoose.connect(`mongodb+srv://${process.env.USER_NAME}:${process.env.PASSWORD}
 });
 
 // routes
-const medicineRoute = require("./mongodb/routes/medicineRoute");
+const medicineRoute = require("./routes/medicineRoute");
 
 app.use("/medicine", medicineRoute)
 

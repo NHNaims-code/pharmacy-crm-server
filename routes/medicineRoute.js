@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const medicineSchema = require("../schemas/medicineSchema");
+const medicineSchema = require("../mongodb/schemas/medicineSchema");
 
 
 const router = express.Router();
@@ -22,9 +22,9 @@ router.post("/create", async(req, res) => {
 
         if(err){
             // console.log(err);
-            res.status(200).json({err: "Something went wrong", errDoc: err})
+            res.status(200).json({ok: false, error: err})
         }else{
-            res.status(200).json({msg: "Success!", doc: doc})
+            res.status(200).json({ok: true, doc: doc})
         }
     })
 
@@ -33,12 +33,14 @@ router.post("/create", async(req, res) => {
 // R for read operation
 router.get("/read", async(req, res) => {
 
+    console.log('hit read')
+
     const newMedicine = await medicineModel.find({});
 
     if(newMedicine){
-        res.status(200).json({msg: "Success!", doc: newMedicine})
+        res.status(200).send({ok: true, doc: newMedicine})
     }else{
-        res.status(500).json({err: "Something went wrong, try again."})
+        res.status(500).send({ok: false, error: 'err'})
     }
 })
 
@@ -56,11 +58,16 @@ router.get("/read", async(req, res) => {
 
 // D for delete operation
 router.delete('/delete/:id', async(req, res) => {
-    medicineModel.deleteOne({_id: req.params.id}, (err) => {
+
+    console.log('hit')
+    medicineModel.deleteOne({_id: mongoose.Types.ObjectId(req.params.id)}, (err, doc) => {
+        console.log(req.params.id)
         if(err){
-            res.status(500).json({err: "Something went wrong, try again.", errDoc: err})
+            console.log(err)
+            res.status(401).send({ok: false, error: err})
         }else{
-            res.status(200).json({msg: 'Successfully deleted!'})
+            console.log(doc)
+            res.status(200).send({ok: true, doc: doc})
         }
     })
 })
@@ -70,12 +77,12 @@ router.delete('/delete/:id', async(req, res) => {
  */
 
 // Create Multiple
-router.post("/insert-many", async(req, res) => {
+router.post("/create-many", async(req, res) => {
 
     medicineModel.insertMany(req.body).then(doc => {
-        res.status(200).json({msg: "Success!", doc: doc})
+        res.status(200).send({ok: true, doc: doc})
     }).catch(err => {
-        res.status(200).json({err: "Something went wrong", errDoc: err})
+        res.status(200).send({ok: false, error: err})
     })
     // const newMedicine = await new medicineModel(req.body);
 
